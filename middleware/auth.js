@@ -14,7 +14,7 @@ function auth(req, res, next) {
   let token = req.headers.authorization;
 
   if (!token.startsWith("Bearer ")) {
-    res.status(401).json({ error: "Please use Bearer Authorization" });
+    return res.status(401).json({ error: "Please use Bearer Authorization" });
   }
   // Remove 'Bearer ' from start of auth string
   token = token.replace(/^Bearer\s/, "");
