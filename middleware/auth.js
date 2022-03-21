@@ -28,10 +28,18 @@ function auth(req, res, next) {
     }
 
     // Attach user to the request object to be used in deeper routes
-    req.user = User.findOne({ _id: decoded.id });
-  });
+    User.findById(decoded.id).then((user) => {
+      if (!user) {
+        // Use the same error message, so that attackers can't tell they used a valid JWT token
+        return res
+          .status(401)
+          .json({ error: "Invalid JWT token, please reauthorize" });
+      }
+      req.user = user;
 
-  return next();
+      return next();
+    });
+  });
 }
 
 module.exports = auth;
