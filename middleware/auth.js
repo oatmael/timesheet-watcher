@@ -13,7 +13,7 @@ const User = require("../models/User");
 function auth(req, res, next) {
   let token = req.headers.authorization;
 
-  if (!token.startsWith("Bearer ")) {
+  if (!token || !token.startsWith("Bearer ")) {
     return res.status(401).json({ error: "Please use Bearer Authorization" });
   }
   // Remove 'Bearer ' from start of auth string
